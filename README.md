@@ -1,1 +1,1 @@
-# lgi2026-integrador-Weber-Waldemar
+# lgi2026-integrador-Weber-Waldemar-Luckmann
