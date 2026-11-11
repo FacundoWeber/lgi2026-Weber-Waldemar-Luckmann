@@ -1,0 +1,78 @@
+.panel-ancho {
+    width: min(1100px, 94%);
+}
+
+.seccion-herramientas {
+    margin-top: 28px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.seccion-herramientas h2 {
+    margin-top: 0;
+}
+
+.seccion-herramientas label {
+    display: block;
+    margin: 12px 0 5px;
+    font-weight: 600;
+}
+
+.seccion-herramientas input,
+.seccion-herramientas select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
+
+.campos-dos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.acciones-formulario {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.boton-secundario {
+    background: #6c757d;
+}
+
+.tabla-contenedor {
+    overflow-x: auto;
+}
+
+.tabla-herramientas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+}
+
+.tabla-herramientas th,
+.tabla-herramientas td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.boton-tabla {
+    margin: 2px;
+    padding: 7px 10px;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .campos-dos {
+        grid-template-columns: 1fr;
+    }
+    .seccion-herramientas {
+        padding: 12px;
+    }
+}
