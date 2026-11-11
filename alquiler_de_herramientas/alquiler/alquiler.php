@@ -1,110 +1,145 @@
 <!DOCTYPE html>
+<html lang="es">
 
-<html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Alquiler de herramientas</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 30px;
-        background-color: #f4f4f4;
-    }
+    <title>Alquiler de herramientas</title>
 
-    h1 {
-        text-align: center;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f4f4;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: white;
-        margin-top: 20px;
-    }
+        h1 {
+            text-align: center;
+        }
 
-    th, td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: center;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            margin-top: 20px;
+        }
 
-    th {
-        background-color: #333;
-        color: white;
-    }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
 
-    button {
-        padding: 8px 14px;
-        border: none;
-        cursor: pointer;
-        border-radius: 4px;
-    }
+        th {
+            background-color: #333;
+            color: white;
+        }
 
-    .btn-alquilar {
-        background-color: #28a745;
-        color: white;
-        margin-top: 20px;
-        padding: 12px 20px;
-    }
+        button {
+            padding: 8px 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
 
-    .btn-mas {
-        background-color: #007bff;
-        color: white;
-    }
+        input, select {
+            padding: 8px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-    .btn-menos {
-        background-color: #dc3545;
-        color: white;
-    }
+        .btn-alquilar {
+            background-color: #28a745;
+            color: white;
+            margin-top: 20px;
+            padding: 12px 20px;
+        }
 
-    button:hover {
-        opacity: 0.8;
-    }
-</style>
+        .btn-mas {
+            background-color: #007bff;
+            color: white;
+        }
 
+        .btn-menos {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<h1>Alquiler de herramientas</h1>
+    <h1>Alquiler de herramientas</h1>
 
-<h2>Datos del alquiler</h2>
+    <h2>Datos del alquiler</h2>
 
-<label>Fecha de inicio:</label>
-<input type="date" id="fecha_inicio">
+    <!-- Seleccionar cliente -->
+    <label for="cliente_id">Cliente:</label>
 
-<label>Fecha de devolución:</label>
-<input type="date" id="fecha_fin">
+    <select id="cliente_id">
+        <option value="">Seleccionar cliente</option>
+    </select>
 
+    <br><br>
 
-<h2>Herramientas disponibles</h2>
+    <!-- Fechas del alquiler -->
+    <label for="fecha_inicio">Fecha de inicio:</label>
 
-<table>
-    <thead>
-        <tr>
-            <th>Herramienta</th>
-            <th>Precio</th>
-            <th>Stock disponible</th>
-            <th>Cantidad seleccionada</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+    <input type="date" id="fecha_inicio">
 
-    <tbody id="tabla-herramientas">
-        <tr>
-            <td colspan="5">Cargando herramientas...</td>
-        </tr>
-    </tbody>
-</table>
+    <label for="fecha_fin">Fecha de devolución:</label>
 
-<div style="text-align: center;">
-    <button type="button"
-            class="btn-alquilar"
-            onclick="finalizarAlquiler()">
-        Confirmar alquiler
-    </button>
-</div>
-
-<script src="../js/alquiler.js"></script>
+    <input type="date" id="fecha_fin">
 
 
-</body> </html>
+    <h2>Herramientas disponibles</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Herramienta</th>
+                <th>Precio</th>
+                <th>Stock disponible</th>
+                <th>Cantidad seleccionada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabla-herramientas">
+
+            <tr>
+                <td colspan="5">Cargando herramientas...</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <div style="text-align: center;">
+
+        <button type="button"
+                class="btn-alquilar"
+                onclick="finalizarAlquiler()">
+
+            Confirmar alquiler
+
+        </button>
+
+    </div>
+
+
+    <script src="../js/alquiler.js"></script>
+
+</body>
+
+</html>
