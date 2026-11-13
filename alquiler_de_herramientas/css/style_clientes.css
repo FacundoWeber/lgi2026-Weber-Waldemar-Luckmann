@@ -1,0 +1,154 @@
+.ColorFont{
+    background-color: rgb(76, 105, 133);
+}
+
+/* Configuración general */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #496987;
+    color: white;
+}
+
+/* Búsqueda */
+.busqueda {
+    width: 100%;
+    padding: 20px;
+    background-color: #438da9;
+    text-align: center;
+}
+
+.busqueda h4 {
+    font-size: 22px;
+    margin: 0 0 15px;
+}
+
+.busqueda input {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Contenedor principal */
+.contenedor {
+    width: 90%;
+    max-width: 1200px;
+    margin: 35px auto;
+    text-align: center;
+}
+
+.contenedor h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+/* Tabla */
+.tabla-clientes {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #60819e;
+    color: rgb(198, 247, 255);
+    font-size: 17px;
+}
+
+.tabla-clientes th {
+    background-color: #263f55;
+    padding: 15px;
+    font-size: 18px;
+}
+
+.tabla-clientes td {
+    padding: 12px;
+    border: 1px solid #9bb1c4;
+}
+
+.tabla-clientes tr:hover {
+    background-color: #7598b5;
+}
+
+/* Formulario */
+.formulario {
+    width: 100%;
+    max-width: 600px;
+    margin: 35px auto;
+    padding: 25px;
+    background-color: #3d5c78;
+    border-radius: 10px;
+}
+
+.formulario h3 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.formulario input {
+    width: 75%;
+    padding: 12px;
+    margin: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Botones */
+button {
+    padding: 11px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.busqueda button {
+    background-color: #cf7b1b;
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.formulario button {
+    margin: 10px 5px;
+    background-color: #cf7b1b;
+    color: white;
+}
+
+.tabla-clientes button {
+    background-color: #263f55;
+    color: white;
+}
+
+/* Adaptación a celulares */
+@media (max-width: 650px) {
+    .contenedor {
+        width: 95%;
+    }
+
+    .tabla-clientes {
+        font-size: 13px;
+    }
+
+    .tabla-clientes th,
+    .tabla-clientes td {
+        padding: 7px;
+    }
+
+    .formulario input {
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .busqueda input {
+        width: 65%;
+    }
+}

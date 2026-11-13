@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <script type="module" src="js/operaciones_cliente.js"></script>
+    <link rel="stylesheet" href="css/style_clientes.css">
+</head>
+<body class="ColorFont">
+    <div class="busqueda">
+        <center>
+            <h4>Búsqueda</h4>
+            <form id="busqueda">
+                <label for="cliente_busqueda">Buscar Cliente:</label>
+                <input type="text" 
+                    id="cliente_busqueda" 
+                    name="Cliente" 
+                    placeholder="Buscar">
+                <button type="submit">Buscar</button>
+            </form>
+        </center>
+    </div>
+    <main>
+        <div>
+            <center>
+                <h2>listado de Clientes</h2>
+                <table class="tabla-clientes" border="4">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>DNI</th>
+                            <th>Telefono</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_clientes"></tbody>
+                </table>
+                <p>Total de clientes: <strong id="totalClientes">0</strong></p>
+
+                <section class="formulario">
+                    <h3>Clientes</h3>
+                    <form id="agregar_cliente">
+                        <label>ID:</label>
+                        <input type="text" id="idSeleccionar" name="id" placeholder="ID"><br>
+                        <label>Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required><br>
+                        <label>DNI:</label>
+                        <input type="text" id="dni" name="dni" placeholder="DNI" required><br>
+                        <label>Teléfono:</label>
+                        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required><br><br>
+                        <br><br>
+                        <button type="submit" id="btnAgregar" class="btnAgregar">Agregar Cliente</button>
+                        <button type="button" id="btnActualizar" class="btnActualizar">Actualizar Cliente</button>
+                    </form>
+                </section>
+            </center>
+        </div>
+    </main>
+</body>
+</html>
