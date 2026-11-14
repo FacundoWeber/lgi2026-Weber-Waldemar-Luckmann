@@ -1,7 +1,16 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
+// Gestión de vendedores. Por ahora es una pantalla vacía.
+
+require_once __DIR__ . '/../includes/plantilla.php';
+
 exigirRol('administrador');
-// TODO: alta, edición y listado de vendedores.
-// altas, adiciones, bajas de herramientas, categorias, etc. (CRUD de herramientas y categorias)
+
+mostrarEncabezado('Gestión de vendedores');
 ?>
-<h1>Gestión de vendedores</h1><p>Completar esta sección.</p><a href="index.php">Volver al panel de administración</a>   
+<section class="panel panel-ancho">
+    <h1>Gestión de vendedores</h1>
+    <p>Esta pantalla todavía no está implementada.</p>
+    <p>Tiene que listar, agregar, editar y activar o desactivar usuarios con rol vendedor.</p>
+    <p><a href="<?= url('/admin/index.php') ?>">Volver al panel</a></p>
+</section>
+<?php mostrarPie(); ?>

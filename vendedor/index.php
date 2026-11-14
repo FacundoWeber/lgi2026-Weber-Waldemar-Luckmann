@@ -1,9 +1,26 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
-exigirRol('vendedor');
+// Panel del vendedor (operador).
+
+require_once __DIR__ . '/../includes/plantilla.php';
+
+$usuario = exigirRol('vendedor');
+
+mostrarEncabezado('Panel de vendedor');
 ?>
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Vendedor</title><link rel="stylesheet" href="../css/style.css"></head>
-<body><main class="panel"><h1>Panel de vendedor</h1>
-<p>Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>.</p>
-<nav><a href="alquileres.php">Registrar alquiler</a><a href="clientes.php">Clientes</a><a href="../php/logout.php">Cerrar sesión</a></nav>
-<p>Panel inicial para completar en equipo.</p></main></body></html>
+<section class="panel panel-ancho">
+    <h1>Hola, <?= htmlspecialchars($usuario['nombre']) ?></h1>
+    <p>Desde este panel se registran los alquileres y se gestionan los clientes.</p>
+
+    <div class="tarjetas">
+        <div class="tarjeta tarjeta-pendiente">
+            <h2>Alquileres</h2>
+            <p>Registrar alquiler, cambiar de estado y filtrar. <span class="etiqueta">Pendiente</span></p>
+        </div>
+
+        <div class="tarjeta tarjeta-pendiente">
+            <h2>Clientes</h2>
+            <p>Alta, edición y activación de clientes. <span class="etiqueta">Pendiente</span></p>
+        </div>
+    </div>
+</section>
+<?php mostrarPie(); ?>

@@ -1,20 +1,31 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
-exigirRol('administrador');
+// Panel del administrador.
+
+require_once __DIR__ . '/../includes/plantilla.php';
+
+$usuario = exigirRol('administrador');
+
+mostrarEncabezado('Panel de administración');
 ?>
-<!DOCTYPE html>
-<html lang="es"><head>
-    <meta charset="UTF-8">
-    <title>Administración</title><link rel="stylesheet" href="../css/estilos.css"></head>
-    <body>
-        <main class="panel"><h1>Panel de administración</h1>
-            <p>Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>.</p>
-            <nav>
-                <a href="usuarios.php">Gestionar vendedores</a>
-                <a href="herramientas.php">Gestionar herramientas</a>
-                <a href="../php/logout.php">Cerrar sesión</a>
-            </nav>
-            <p>Panel inicial para completar en equipo.</p>
-        </main>
-    </body>
-</html>
+<section class="panel panel-ancho">
+    <h1>Hola, <?= htmlspecialchars($usuario['nombre']) ?></h1>
+    <p>Desde este panel se administra el catálogo de herramientas y los usuarios del sistema.</p>
+
+    <div class="tarjetas">
+        <a class="tarjeta" href="<?= url('/admin/herramientas.php') ?>">
+            <h2>Herramientas</h2>
+            <p>Alta, edición, búsqueda y activación de herramientas.</p>
+        </a>
+
+        <div class="tarjeta tarjeta-pendiente">
+            <h2>Categorías</h2>
+            <p>ABM de categorías. <span class="etiqueta">Pendiente</span></p>
+        </div>
+
+        <div class="tarjeta tarjeta-pendiente">
+            <h2>Usuarios</h2>
+            <p>Alta y baja de vendedores. <span class="etiqueta">Pendiente</span></p>
+        </div>
+    </div>
+</section>
+<?php mostrarPie(); ?>
