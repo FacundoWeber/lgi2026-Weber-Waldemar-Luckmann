@@ -1,31 +1,53 @@
 <?php
-session_start();
+// Revisa el usuario y la contraseña, y guarda la sesión.
+
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../index.php'); exit;
+    header('Location: ' . url('/index.php'));
+    exit;
 }
-$usuario = trim($_POST['usuario'] ?? '');
-$contrasena = $_POST['contrasena'] ?? '';
+
+// trim() porque al copiar y pegar suelen quedar espacios.
+$usuario = trim((string) ($_POST['usuario'] ?? ''));
+$contrasena = trim((string) ($_POST['contrasena'] ?? ''));
+
+if ($usuario === '' || $contrasena === '') {
+    header('Location: ' . url('/index.php?error=login'));
+    exit;
+}
 
 try {
-    $pdo = obtenerConexion();
-    $consulta = $pdo->prepare('SELECT id,nombre,usuario,contrasena,rol FROM usuarios WHERE usuario=:usuario AND activo=1');
-    $consulta->execute(['usuario' => $usuario]);
+    $conexion = obtenerConexion();
+    $consulta = $conexion->prepare(
+        'SELECT id, nombre, usuario, contrasena, rol FROM usuarios WHERE usuario = ? AND activo = 1'
+    );
+    $consulta->execute([$usuario]);
     $datos = $consulta->fetch();
 
     if ($datos && password_verify($contrasena, $datos['contrasena'])) {
         session_regenerate_id(true);
+
         $_SESSION['usuario'] = [
-            'id' => $datos['id'], 'nombre' => $datos['nombre'],
-            'usuario' => $datos['usuario'], 'rol' => $datos['rol']
+            'id' => (int) $datos['id'],
+            'nombre' => $datos['nombre'],
+            'usuario' => $datos['usuario'],
+            'rol' => $datos['rol'],
         ];
-        if ($datos['rol'] === 'administrador') header('Location: ../admin/index.php');
-        elseif ($datos['rol'] === 'vendedor') header('Location: ../vendedor/index.php');
-        else header('Location: ../cliente/index.php');
+
+        $destinos = [
+            'administrador' => '/admin/index.php',
+            'vendedor' => '/vendedor/index.php',
+            'cliente' => '/cliente/index.php',
+        ];
+
+        header('Location: ' . url($destinos[$datos['rol']] ?? '/index.php'));
         exit;
     }
-} catch (PDOException $e) {
-    error_log($e->getMessage());
+} catch (PDOException $error) {
+    error_log('Login: ' . $error->getMessage());
 }
-header('Location: ../index.php?error=login'); exit;
+
+header('Location: ' . url('/index.php?error=login'));
+exit;

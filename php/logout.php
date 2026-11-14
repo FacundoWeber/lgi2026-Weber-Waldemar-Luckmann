@@ -1,6 +1,10 @@
 <?php
-session_start();
+// Cierra la sesión y vuelve al login.
+
+require_once __DIR__ . '/../includes/config.php';
+
 $_SESSION = [];
 session_destroy();
-header('Location: ../index.php');
+
+header('Location: ' . url('/index.php'));
 exit;
