@@ -192,7 +192,7 @@ try {
 
     // Preparar consultas
     $insertarDetalle = $pdo->prepare("
-        INSERT INTO detalle_alquileres
+        INSERT INTO detalle_alquiler
         (alquiler_id, herramienta_id, cantidad, precio_dia, dias, subtotal)
         VALUES (?, ?, ?, ?, ?, ?)
     ");
