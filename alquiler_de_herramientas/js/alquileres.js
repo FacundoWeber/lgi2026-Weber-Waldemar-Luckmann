@@ -1,25 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // ELEMENTOS HTML
     const tablaHerramientas = document.getElementById("tabla-herramientas");
     const selectCliente = document.getElementById("cliente_id");
     const inputFechaInicio = document.getElementById("fecha_inicio");
     const inputFechaFin = document.getElementById("fecha_fin");
 
+    // URL DE LAS API
     const API_URL = "../api/herramientas.php";
     const API_CLIENTES_URL = "../api/clientes.php";
     const API_ALQUILER_URL = "../api/alquileres.php";
 
+    // VARIABLES
     let herramientasCache = [];
     let carritoAlquiler = {};
+    let enviandoAlquiler = false;
 
-    // Cargar clientes
+
+    // CARGAR CLIENTES
     function cargarClientes() {
 
         fetch(API_CLIENTES_URL)
             .then(response => {
 
                 if (!response.ok) {
-                    throw new Error("Error al cargar clientes");
+                    throw new Error("Error al cargar clientes.");
                 }
 
                 return response.json();
@@ -53,14 +58,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Cargar herramientas
+    // CARGAR HERRAMIENTAS
     function cargarHerramientas() {
 
         fetch(API_URL)
             .then(response => {
 
                 if (!response.ok) {
-                    throw new Error("Error en la respuesta del servidor");
+                    throw new Error("Error al cargar herramientas.");
                 }
 
                 return response.json();
@@ -69,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
 
                 herramientasCache = data.filter(
-                    h => Number(h.activo) === 1
+                    herramienta => Number(herramienta.activo) === 1
                 );
 
                 renderizarHerramientas();
@@ -79,32 +84,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 console.error("Error al cargar herramientas:", error);
 
-                tablaHerramientas.innerHTML = `
-                    <tr>
-                        <td colspan="5">
-                            Error al cargar las herramientas.
-                        </td>
-                    </tr>
-                `;
+                tablaHerramientas.textContent = "";
+
+                const fila = document.createElement("tr");
+                const celda = document.createElement("td");
+
+                celda.colSpan = 5;
+                celda.textContent = "Error al cargar las herramientas.";
+
+                fila.appendChild(celda);
+                tablaHerramientas.appendChild(fila);
 
             });
     }
 
 
-    // Mostrar herramientas
+    // MOSTRAR HERRAMIENTAS
     function renderizarHerramientas() {
 
         tablaHerramientas.innerHTML = "";
 
         if (herramientasCache.length === 0) {
 
-            tablaHerramientas.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        No hay herramientas disponibles.
-                    </td>
-                </tr>
-            `;
+            const fila = document.createElement("tr");
+            const celda = document.createElement("td");
+
+            celda.colSpan = 5;
+            celda.textContent = "No hay herramientas disponibles.";
+
+            fila.appendChild(celda);
+            tablaHerramientas.appendChild(fila);
 
             return;
         }
@@ -113,10 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         herramientasCache.forEach(herramienta => {
 
-            const id = parseInt(herramienta.id);
+            const id = Number(herramienta.id);
             const nombre = herramienta.nombre;
-            const stock = parseInt(herramienta.stock) || 0;
-            const precio = parseFloat(herramienta.precio_dia) || 0;
+            const stock = Number(herramienta.stock) || 0;
+            const precio = Number(herramienta.precio_dia) || 0;
 
             const cantidad = carritoAlquiler[id] || 0;
 
@@ -126,59 +135,91 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const fila = document.createElement("tr");
 
-            fila.innerHTML = `
-                <td>${nombre}</td>
+            // Nombre
+            const celdaNombre = document.createElement("td");
+            celdaNombre.textContent = nombre;
 
-                <td>$ ${precio.toFixed(2)}</td>
+            // Precio
+            const celdaPrecio = document.createElement("td");
+            celdaPrecio.textContent = "$ " + precio.toFixed(2);
 
-                <td>${stock}</td>
+            // Stock
+            const celdaStock = document.createElement("td");
+            celdaStock.textContent = stock;
 
-                <td>${cantidad}</td>
+            // Cantidad seleccionada
+            const celdaCantidad = document.createElement("td");
+            celdaCantidad.textContent = cantidad;
 
-                <td>
+            // Acciones
+            const celdaAcciones = document.createElement("td");
 
-                    <button type="button"
-                        class="btn-mas"
-                        onclick="incrementarAlquiler(${id})"
-                        ${cantidad >= stock ? "disabled" : ""}>
-                        +
-                    </button>
+            const btnMas = document.createElement("button");
 
-                    <button type="button"
-                        class="btn-menos"
-                        onclick="disminuirAlquiler(${id})"
-                        ${cantidad === 0 ? "disabled" : ""}>
-                        -
-                    </button>
+            btnMas.type = "button";
+            btnMas.className = "btn-mas";
+            btnMas.textContent = "+";
+            btnMas.disabled = cantidad >= stock;
 
-                </td>
-            `;
+            btnMas.addEventListener("click", () => {
+                incrementarAlquiler(id);
+            });
+
+            const btnMenos = document.createElement("button");
+
+            btnMenos.type = "button";
+            btnMenos.className = "btn-menos";
+            btnMenos.textContent = "-";
+            btnMenos.disabled = cantidad === 0;
+
+            btnMenos.addEventListener("click", () => {
+                disminuirAlquiler(id);
+            });
+
+            celdaAcciones.appendChild(btnMas);
+            celdaAcciones.appendChild(btnMenos);
+
+            // Agregar celdas
+            fila.appendChild(celdaNombre);
+            fila.appendChild(celdaPrecio);
+            fila.appendChild(celdaStock);
+            fila.appendChild(celdaCantidad);
+            fila.appendChild(celdaAcciones);
 
             tablaHerramientas.appendChild(fila);
 
         });
 
 
-        // Mostrar total por día
+        // TOTAL POR DÍA
         const filaTotal = document.createElement("tr");
 
-        filaTotal.innerHTML = `
-            <td colspan="3">
-                <strong>Total por día:</strong>
-            </td>
+        const celdaTitulo = document.createElement("td");
+        celdaTitulo.colSpan = 3;
 
-            <td colspan="2">
-                <strong>$ ${totalAlquiler.toFixed(2)}</strong>
-            </td>
-        `;
+        const textoTotal = document.createElement("strong");
+        textoTotal.textContent = "Total por día:";
+
+        celdaTitulo.appendChild(textoTotal);
+
+        const celdaTotal = document.createElement("td");
+        celdaTotal.colSpan = 2;
+
+        const valorTotal = document.createElement("strong");
+        valorTotal.textContent = "$ " + totalAlquiler.toFixed(2);
+
+        celdaTotal.appendChild(valorTotal);
+
+        filaTotal.appendChild(celdaTitulo);
+        filaTotal.appendChild(celdaTotal);
 
         tablaHerramientas.appendChild(filaTotal);
 
     }
 
 
-    // Agregar herramienta
-    window.incrementarAlquiler = function(id) {
+    // AGREGAR HERRAMIENTA
+    function incrementarAlquiler(id) {
 
         const herramienta = herramientasCache.find(
             h => Number(h.id) === id
@@ -186,11 +227,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!herramienta) return;
 
-        const stock = parseInt(herramienta.stock) || 0;
-
+        const stock = Number(herramienta.stock) || 0;
         const cantidadActual = carritoAlquiler[id] || 0;
 
-        if (cantidadActual + 1 > stock) {
+        if (cantidadActual >= stock) {
 
             alert("No hay suficiente stock disponible.");
 
@@ -201,39 +241,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderizarHerramientas();
 
-    };
+    }
 
 
-    // Quitar herramienta
-    window.disminuirAlquiler = function(id) {
+    // QUITAR HERRAMIENTA
+    function disminuirAlquiler(id) {
 
         if (!carritoAlquiler[id]) return;
 
         carritoAlquiler[id]--;
 
         if (carritoAlquiler[id] === 0) {
-
             delete carritoAlquiler[id];
-
         }
 
         renderizarHerramientas();
 
-    };
+    }
 
 
-    // Confirmar alquiler
-    window.finalizarAlquiler = function() {
+    // OBTENER FECHA LOCAL ACTUAL
+    function obtenerFechaActual() {
 
-        // Obtener datos del formulario
+        const hoy = new Date();
+
+        const anio = hoy.getFullYear();
+        const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+        const dia = String(hoy.getDate()).padStart(2, "0");
+
+        return `${anio}-${mes}-${dia}`;
+
+    }
+
+
+    // CONFIRMAR ALQUILER
+    window.finalizarAlquiler = async function() {
+
+        if (enviandoAlquiler) return;
+
+        // DATOS DEL FORMULARIO
         const clienteId = selectCliente.value;
-
         const fechaInicio = inputFechaInicio.value;
-
         const fechaFin = inputFechaFin.value;
 
-
-        // Validar cliente
+        // VALIDAR CLIENTE
         if (!clienteId) {
 
             alert("Seleccioná un cliente.");
@@ -241,8 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
-        // Validar fechas
+        // VALIDAR FECHAS
         if (!fechaInicio || !fechaFin) {
 
             alert("Seleccioná las fechas del alquiler.");
@@ -250,7 +300,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // VALIDAR FECHA DE INICIO
+        if (fechaInicio < obtenerFechaActual()) {
 
+            alert("La fecha de inicio no puede ser anterior a hoy.");
+
+            return;
+        }
+
+        // VALIDAR FECHA DE DEVOLUCIÓN
         if (fechaFin < fechaInicio) {
 
             alert("La fecha de devolución no puede ser anterior al inicio.");
@@ -258,17 +316,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
-        // Obtener herramientas seleccionadas
+        // OBTENER HERRAMIENTAS SELECCIONADAS
         const herramientasSeleccionadas = Object.keys(carritoAlquiler).map(id => ({
 
-            id_herramienta: parseInt(id),
-
+            id_herramienta: Number(id),
             cantidad: carritoAlquiler[id]
 
         }));
 
-
+        // VALIDAR CARRITO
         if (herramientasSeleccionadas.length === 0) {
 
             alert("Seleccioná al menos una herramienta.");
@@ -276,53 +332,38 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
+        // CONFIRMAR
         if (!confirm("¿Deseás confirmar el alquiler?")) {
-
             return;
         }
 
+        enviandoAlquiler = true;
 
-        // Enviar alquiler al servidor
-        fetch(API_ALQUILER_URL, {
+        try {
 
-            method: "POST",
+            // ENVIAR ALQUILER AL SERVIDOR
+            const response = await fetch(API_ALQUILER_URL, {
 
-            headers: {
+                method: "POST",
 
-                "Content-Type": "application/json"
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            },
+                body: JSON.stringify({
 
-            body: JSON.stringify({
+                    cliente_id: Number(clienteId),
+                    fecha_inicio: fechaInicio,
+                    fecha_fin: fechaFin,
+                    herramientas: herramientasSeleccionadas
 
-                cliente_id: parseInt(clienteId),
+                })
 
-                fecha_inicio: fechaInicio,
+            });
 
-                fecha_fin: fechaFin,
+            const resultado = await response.json();
 
-                herramientas: herramientasSeleccionadas
-
-            })
-
-        })
-
-        .then(response => {
-
-            return response.json().then(resultado => ({
-
-                ok: response.ok,
-
-                resultado: resultado
-
-            }));
-
-        })
-
-        .then(({ ok, resultado }) => {
-
-            if (!ok || !resultado.success) {
+            if (!response.ok || !resultado.success) {
 
                 throw new Error(
                     resultado.message || "Error al registrar el alquiler."
@@ -330,44 +371,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
+            // ÉXITO
             alert(
                 "¡Alquiler registrado correctamente!\n" +
                 "Total: $ " + Number(resultado.total).toFixed(2)
             );
 
-
-            // Limpiar carrito
+            // LIMPIAR CARRITO
             carritoAlquiler = {};
 
-
-            // Recargar herramientas y stock
-            cargarHerramientas();
-
-
-            // Limpiar fechas y cliente
+            // LIMPIAR FORMULARIO
             selectCliente.value = "";
-
             inputFechaInicio.value = "";
-
             inputFechaFin.value = "";
 
-        })
+            // ACTUALIZAR HERRAMIENTAS Y STOCK
+            cargarHerramientas();
 
-        .catch(error => {
+        }
+        catch (error) {
 
             console.error("Error al registrar alquiler:", error);
 
-            alert(error.message || "Ocurrió un error al registrar el alquiler.");
+            alert(
+                error.message ||
+                "Ocurrió un error al registrar el alquiler."
+            );
 
-        });
+        }
+        finally {
+
+            enviandoAlquiler = false;
+
+        }
 
     };
 
 
-    // Inicializar
+    // INICIALIZAR
     cargarClientes();
-
     cargarHerramientas();
 
 });
