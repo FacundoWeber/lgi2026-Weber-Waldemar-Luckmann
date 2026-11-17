@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputFechaFin = document.getElementById("fecha_fin");
 
     // URL DE LAS API
-    const API_URL = "../api/herramientas.php";
-    const API_CLIENTES_URL = "../api/clientes.php";
+    const API_URL = "../api/herramientas.php?accion=listar";
+    const API_CLIENTES_URL = "../api/clientes.php?accion=listar";
     const API_ALQUILER_URL = "../api/alquileres.php";
+    
 
     // VARIABLES
     let herramientasCache = [];
@@ -58,45 +59,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // CARGAR HERRAMIENTAS
-    function cargarHerramientas() {
+// CARGAR HERRAMIENTAS
+function cargarHerramientas() {
 
-        fetch(API_URL)
-            .then(response => {
+    fetch(API_URL)
+        .then(async response => {
 
-                if (!response.ok) {
-                    throw new Error("Error al cargar herramientas.");
-                }
+            const texto = await response.text();
 
-                return response.json();
+            let resultado;
 
-            })
-            .then(data => {
+            try {
+                resultado = JSON.parse(texto);
+            } catch (error) {
+                console.error("Respuesta recibida de herramientas.php:", texto);
+                throw new Error("El servidor devolvió una respuesta que no es JSON.");
+            }
 
-                herramientasCache = data.filter(
-                    herramienta => Number(herramienta.activo) === 1
-                );
+        if (!response.ok || !resultado.correcto) {
+            throw new Error(
+                resultado.mensaje || "Error al cargar herramientas."
+            );
+        }
 
-                renderizarHerramientas();
+            return resultado;
 
-            })
-            .catch(error => {
+        })
+        .then(resultado => {
 
-                console.error("Error al cargar herramientas:", error);
+        herramientasCache = resultado.datos.herramientas.filter(
+            herramienta => Number(herramienta.activo) === 1
+        );
 
-                tablaHerramientas.textContent = "";
+            renderizarHerramientas();
 
-                const fila = document.createElement("tr");
-                const celda = document.createElement("td");
+        })
+        .catch(error => {
 
-                celda.colSpan = 5;
-                celda.textContent = "Error al cargar las herramientas.";
+            console.error("Error al cargar herramientas:", error);
 
-                fila.appendChild(celda);
-                tablaHerramientas.appendChild(fila);
+            tablaHerramientas.textContent = "";
 
-            });
-    }
+            const fila = document.createElement("tr");
+            const celda = document.createElement("td");
+
+            celda.colSpan = 5;
+            celda.textContent = "Error al cargar las herramientas.";
+
+            fila.appendChild(celda);
+            tablaHerramientas.appendChild(fila);
+
+        });
+}
 
 
     // MOSTRAR HERRAMIENTAS
