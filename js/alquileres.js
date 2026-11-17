@@ -19,43 +19,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // CARGAR CLIENTES
-    function cargarClientes() {
+    async function cargarClientes() {
 
-        fetch(API_CLIENTES_URL)
-            .then(response => {
+        const respuesta = await fetch("../api/clientes.php?accion=listar");
 
-                if (!response.ok) {
-                    throw new Error("Error al cargar clientes.");
-                }
+        const clientes = await respuesta.json();
 
-                return response.json();
+        if (!respuesta.ok || !Array.isArray(clientes)) {
+            throw new Error("Error al cargar los clientes.");
+        }
 
-            })
-            .then(data => {
+        filtroCliente.innerHTML =
+            '<option value="">Todos los clientes</option>';
 
-                selectCliente.innerHTML = `
-                    <option value="">Seleccionar cliente</option>
-                `;
+        selectCliente.innerHTML =
+            '<option value="">Seleccionar cliente</option>';
 
-                data.forEach(cliente => {
+        clientes.forEach(cliente => {
 
-                    const opcion = document.createElement("option");
+            const opcionFiltro = document.createElement("option");
 
-                    opcion.value = cliente.id;
-                    opcion.textContent = cliente.nombre;
+            opcionFiltro.value = cliente.id;
+            opcionFiltro.textContent = cliente.nombre;
 
-                    selectCliente.appendChild(opcion);
+            filtroCliente.appendChild(opcionFiltro);
 
-                });
-
-            })
-            .catch(error => {
-
-                console.error("Error al cargar clientes:", error);
-
-                alert("No se pudieron cargar los clientes.");
-
-            });
+            const opcionEdicion = opcionFiltro.cloneNode(true);
+            selectCliente.appendChild(opcionEdicion);
+        });
     }
 
 

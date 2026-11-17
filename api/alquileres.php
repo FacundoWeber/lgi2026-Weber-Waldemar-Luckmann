@@ -68,26 +68,6 @@ try {
         $accion = $_GET['accion'] ?? '';
 
         // -------------------------------------------------
-        // LISTAR CLIENTES
-        // -------------------------------------------------
-
-        if ($accion === 'clientes') {
-
-            $consulta = $pdo->prepare("
-                SELECT id, nombre
-                FROM clientes
-                ORDER BY nombre ASC
-            ");
-
-            $consulta->execute();
-
-            responderJSON([
-                "success" => true,
-                "clientes" => $consulta->fetchAll(PDO::FETCH_ASSOC)
-            ]);
-        }
-
-        // -------------------------------------------------
         // LISTAR ALQUILERES
         // -------------------------------------------------
 

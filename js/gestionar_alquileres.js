@@ -103,9 +103,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function cargarClientes() {
 
-        const datos = await solicitar(
-            "../api/alquileres.php?accion=clientes"
-        );
+        const respuesta = await fetch("../api/clientes.php?accion=listar");
+
+        const clientes = await respuesta.json();
+
+        if (!respuesta.ok || !Array.isArray(clientes)) {
+            throw new Error("Error al cargar los clientes.");
+        }
 
         filtroCliente.innerHTML =
             '<option value="">Todos los clientes</option>';
@@ -113,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         selectCliente.innerHTML =
             '<option value="">Seleccionar cliente</option>';
 
-        datos.clientes.forEach(cliente => {
+        clientes.forEach(cliente => {
 
             const opcionFiltro = document.createElement("option");
             opcionFiltro.value = cliente.id;
