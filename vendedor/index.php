@@ -20,6 +20,7 @@ mostrarEncabezado('Panel de vendedor');
         <div class="tarjeta tarjeta-pendiente">
             <h2>Clientes</h2>
             <p>Alta, edición y activación de clientes. <span class="etiqueta">Pendiente</span></p>
+            <a href="<?= url('/vendedor/clientes.php') ?>" class="btn btn-primary">Gestionar Clientes</a>
         </div>
     </div>
 </section>

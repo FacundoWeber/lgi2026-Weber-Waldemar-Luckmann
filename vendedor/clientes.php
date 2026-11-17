@@ -1,5 +1,6 @@
+
 <?php
-// Gestión de clientes. Por ahora es una pantalla vacía.
+// Gestión de clientes
 
 require_once __DIR__ . '/../includes/plantilla.php';
 
@@ -7,10 +8,91 @@ exigirRol('vendedor');
 
 mostrarEncabezado('Clientes');
 ?>
+
 <section class="panel panel-ancho">
-    <h1>Clientes</h1>
-    <p>Esta pantalla todavía no está implementada.</p>
-    <p>Va a permitir buscar, agregar, editar y activar o desactivar clientes.</p>
-    <p><a href="<?= url('/vendedor/index.php') ?>">Volver al panel</a></p>
+
+    <h1>Listado de clientes</h1>
+
+    <!-- BÚSQUEDA -->
+    <div class="busqueda">
+        <h4>Búsqueda</h4>
+
+        <form id="busqueda">
+            <label for="cliente_busqueda">Buscar Cliente:</label>
+
+            <input
+                type="text"
+                id="cliente_busqueda"
+                name="Cliente"
+                placeholder="Buscar"
+            >
+
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- TABLA -->
+    <h2>Listado de Clientes</h2>
+
+    <table class="tabla-clientes" border="4">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Teléfono</th>
+                <th>Seleccionar</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabla_clientes"></tbody>
+
+    </table>
+
+    <p>
+        Total de clientes:
+        <strong id="totalClientes">0</strong>
+    </p>
+
+    <!-- FORMULARIO -->
+    <section class="formulario">
+
+        <h3>Clientes</h3>
+
+        <form id="agregar_cliente">
+
+            <label>ID:</label>
+            <input type="text" id="idSeleccionar" name="id" placeholder="ID"><br>
+
+            <label>Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required><br>
+
+            <label>DNI:</label>
+            <input type="text" id="dni" name="dni" placeholder="DNI" required><br>
+
+            <label>Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required><br><br>
+
+            <button type="submit" id="btnAgregar" class="btnAgregar">
+                Agregar Cliente
+            </button>
+
+            <button type="button" id="btnActualizar" class="btnActualizar">
+                Actualizar Cliente
+            </button>
+
+        </form>
+
+    </section>
+
+    <p>
+        <a href="<?= url('/vendedor/index.php') ?>">Volver al panel</a>
+    </p>
+
 </section>
+
+<script type="module" src="<?= url('/js/clientes.js') ?>"></script>
+
 <?php mostrarPie(); ?>
+
