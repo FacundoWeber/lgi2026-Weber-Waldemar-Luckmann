@@ -17,10 +17,10 @@ mostrarEncabezado('Panel de administración');
             <p>Alta, edición, búsqueda y activación de herramientas.</p>
         </a>
 
-        <div class="tarjeta tarjeta-pendiente">
-            <h2>Categorías</h2>
-            <p>ABM de categorías. <span class="etiqueta">Pendiente</span></p>
-        </div>
+        <a class="tarjeta" href="<?= url('/admin/gestionar_alquileres.php') ?>">
+            <h2>Alquileres</h2>
+            <p>Consulta y seguimiento de los alquileres realizados.</p>
+        </a>
 
         <div class="tarjeta tarjeta-pendiente">
             <h2>Usuarios</h2>

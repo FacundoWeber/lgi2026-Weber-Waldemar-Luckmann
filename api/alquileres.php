@@ -1,23 +1,132 @@
+
 <?php
 
 session_start();
 
 header("Content-Type: application/json; charset=UTF-8");
 
-require_once "../config/database.php";
+require_once __DIR__ . "/../config/database.php";
 
 try {
 
     // Obtener conexión a la base de datos
     $pdo = obtenerConexion();
 
+    // Obtener usuario autenticado
+    $usuario = $_SESSION['usuario'] ?? null;
+
+    if (!$usuario || empty($usuario['id'])) {
+        http_response_code(401);
+        throw new Exception("No hay un usuario autenticado.");
+    }
+
+
+    // =====================================================
+    // CONSULTAS DEL ADMINISTRADOR
+    // =====================================================
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+        // Verificar permisos
+        if (($usuario['rol'] ?? null) !== 'administrador') {
+            http_response_code(403);
+            throw new Exception("No tenés permisos para consultar los alquileres.");
+        }
+
+        $accion = $_GET['accion'] ?? '';
+
+
+        // -------------------------------------------------
+        // LISTAR CLIENTES PARA EL SELECTOR
+        // -------------------------------------------------
+
+        if ($accion === 'clientes') {
+
+            $consulta = $pdo->prepare("
+                SELECT id, nombre
+                FROM clientes
+                ORDER BY nombre ASC
+            ");
+
+            $consulta->execute();
+
+            echo json_encode([
+                "success" => true,
+                "clientes" => $consulta->fetchAll(PDO::FETCH_ASSOC)
+            ]);
+
+            exit;
+        }
+
+
+        // -------------------------------------------------
+        // LISTAR ALQUILERES
+        // -------------------------------------------------
+
+        if ($accion === 'listar') {
+
+            $consulta = $pdo->prepare("
+                SELECT
+                    a.id,
+                    c.nombre AS cliente,
+                    u.nombre AS vendedor,
+                    a.fecha_inicio,
+                    a.fecha_fin,
+                    COUNT(DISTINCT d.herramienta_id) AS herramientas,
+                    a.total,
+                    a.estado
+
+                FROM alquileres a
+
+                INNER JOIN clientes c
+                    ON a.cliente_id = c.id
+
+                INNER JOIN usuarios u
+                    ON a.vendedor_id = u.id
+
+                LEFT JOIN detalle_alquiler d
+                    ON a.id = d.alquiler_id
+
+                GROUP BY a.id
+
+                ORDER BY a.id DESC
+            ");
+
+            $consulta->execute();
+
+            $alquileres = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode([
+                "success" => true,
+                "alquileres" => $alquileres
+            ]);
+
+            exit;
+        }
+
+
+        // Acción GET no válida
+        http_response_code(400);
+        throw new Exception("Acción no válida.");
+    }
+
+
+    // =====================================================
+    // REGISTRAR ALQUILER (VENDEDOR)
+    // =====================================================
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        throw new Exception("Método no permitido.");
+    }
 
     // Verificar sesión del vendedor
     $vendedor = $_SESSION['usuario'] ?? null;
 
     $vendedor_id = $vendedor['id'] ?? null;
 
-    if (!$vendedor_id || $vendedor['rol'] !== 'vendedor') {
+    if (!$vendedor_id || ($vendedor['rol'] ?? null) !== 'vendedor') {
+        http_response_code(403);
         throw new Exception("No hay un vendedor autenticado.");
     }
 
@@ -210,11 +319,14 @@ try {
         $pdo->rollBack();
     }
 
-    http_response_code(400);
+    if (http_response_code() < 400) {
+        http_response_code(400);
+    }
 
     echo json_encode([
         "success" => false,
-        "message" => $e->getMessage()
+        "message" => $e->getMessage(),
+        "mensaje" => $e->getMessage()
     ]);
 
 }
