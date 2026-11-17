@@ -1,21 +1,17 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
+// Gestión de herramientas. La página solo dibuja el HTML: los datos los trae
+// js/herramientas.js desde api/herramientas.php.
+
+require_once __DIR__ . '/../includes/plantilla.php';
+
 exigirRol('administrador');
+
+mostrarEncabezado('Gestión de herramientas', ['/css/herramientas.css']);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gestión de herramientas</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/herramientas.css">
-</head>
-<body>
-<main class="panel panel-ancho">
+<section class="panel panel-ancho">
     <h1>Gestión de herramientas</h1>
-    <p>Desde aquí podés consultar, agregar, modificar y desactivar herramientas.</p>
-    <p><a href="index.php">← Volver al panel</a></p>
+    <p>Consultá, agregá, modificá y desactivá herramientas.</p>
+    <p><a href="<?= url('/admin/index.php') ?>">Volver al panel</a></p>
 
     <section class="seccion-herramientas">
         <h2 id="titulo-formulario">Agregar herramienta</h2>
@@ -76,7 +72,7 @@ exigirRol('administrador');
             </table>
         </div>
     </section>
-</main>
-<script src="../js/herramientas.js"></script>
-</body>
-</html>
+</section>
+
+<script>window.API_HERRAMIENTAS = '<?= url('/api/herramientas.php') ?>';</script>
+<?php mostrarPie(['/js/herramientas.js']); ?>

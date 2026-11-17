@@ -1,0 +1,218 @@
+/* Estilos generales de la aplicación. */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, Arial, sans-serif;
+    background: #eef2f6;
+    color: #243244;
+    line-height: 1.5;
+}
+
+a {
+    color: #2457a7;
+}
+
+h1, h2 {
+    line-height: 1.2;
+}
+
+/* --- Barra superior --- */
+
+.barra-superior {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 20px;
+    background: #2457a7;
+    color: #fff;
+}
+
+.barra-superior .marca {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.menu a:hover {
+    background: #1c4688;
+}
+
+.menu .usuario {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.menu .salir {
+    border: 1px solid #ffffff66;
+}
+
+/* --- Contenedores --- */
+
+.contenido {
+    padding: 24px 16px 48px;
+    display: grid;
+    justify-items: center;
+}
+
+.panel {
+    width: min(440px, 92vw);
+    background: #fff;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px #0001;
+}
+
+.panel-ancho {
+    width: min(1100px, 96vw);
+    padding: 24px;
+}
+
+.inicio-sesion {
+    width: min(440px, 92vw);
+    margin: 8vh auto 0;
+    background: #fff;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px #0001;
+}
+
+/* --- Formularios --- */
+
+form {
+    display: grid;
+    gap: 10px;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font: inherit;
+}
+
+button,
+.boton {
+    display: inline-block;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 6px;
+    background: #2457a7;
+    color: #fff;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.boton:hover {
+    background: #1c4688;
+}
+
+.boton-secundario {
+    background: #6c757d;
+}
+
+/* --- Mensajes --- */
+
+.mensaje {
+    min-height: 1.2em;
+    margin: 6px 0 0;
+    font-size: 0.95rem;
+}
+
+.mensaje-error {
+    color: #b42318;
+}
+
+.mensaje-exito {
+    color: #12703c;
+}
+
+.demo {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* --- Tarjetas del panel --- */
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.tarjeta {
+    display: block;
+    padding: 18px;
+    border: 1px solid #dbe3ec;
+    border-radius: 10px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+}
+
+a.tarjeta:hover {
+    border-color: #2457a7;
+    box-shadow: 0 6px 20px #2457a71a;
+}
+
+.tarjeta h2 {
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+}
+
+.tarjeta p {
+    margin: 0;
+    color: #4a5a6a;
+}
+
+.tarjeta-pendiente {
+    background: #f8fafc;
+    border-style: dashed;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fde7c7;
+    color: #8a5300;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+    .panel,
+    .panel-ancho {
+        padding: 16px;
+    }
+}
