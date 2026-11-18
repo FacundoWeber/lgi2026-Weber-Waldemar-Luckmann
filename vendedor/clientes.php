@@ -81,10 +81,10 @@ mostrarEncabezado('Clientes');
             <input type="text" id="email" name="email" placeholder="Email" required><br><br>
 
             <label>Activo:</label>
-            <input type="number" id="activo" name="activo" min="0" max="1" placeholder="Activo"><br><br>
+            <input type="number" id="activo" name="activo" min="0" max="1" value="1" required><br><br>
 
             <label>Deuda:</label>
-            <input type="number" id="deuda" name="deuda" step="0.01" placeholder="Deuda" required><br><br>
+            <input type="number" id="deuda" name="deuda" step="0.01" value="0" required><br><br>
 
             <button type="submit" id="btnAgregar" class="btnAgregar">
                 Agregar Cliente
@@ -104,7 +104,7 @@ mostrarEncabezado('Clientes');
 
 </section>
 
-<script type="module" src="<?= url('/js/clientes.js') ?>"></script>
+<script type="module" src="<?= version('/js/clientes.js') ?>"></script>
 
 <?php mostrarPie(); ?>
 

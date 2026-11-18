@@ -264,7 +264,9 @@ a.tarjeta:hover {
 }
 
 .grafico {
+    position: relative;
     max-width: 420px;
+    height: 320px;
     margin: 16px auto;
 }
 

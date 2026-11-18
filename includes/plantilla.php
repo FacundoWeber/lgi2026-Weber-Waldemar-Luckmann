@@ -3,10 +3,22 @@
 
 require_once __DIR__ . '/auth.php';
 
+// Agrega la fecha del archivo a la URL. Así, cuando cambiamos un css o un js,
+// el navegador baja la versión nueva en vez de usar la que tenía guardada.
+function version(string $ruta): string
+{
+    $archivo = __DIR__ . '/..' . $ruta;
+
+    if (is_file($archivo)) {
+        return url($ruta) . '?v=' . filemtime($archivo);
+    }
+
+    return url($ruta);
+}
+
 // $hojas son hojas de estilo extra, por ejemplo /css/herramientas.css.
 function mostrarEncabezado(string $titulo, array $hojas = []): void
-{
-    $usuario = usuarioActual();
+{    $usuario = usuarioActual();
     $esAdmin = $usuario !== null && $usuario['rol'] === 'administrador';
     ?>
     <!DOCTYPE html>
@@ -15,9 +27,9 @@ function mostrarEncabezado(string $titulo, array $hojas = []): void
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?= htmlspecialchars($titulo) ?> · Alquiler de herramientas</title>
-        <link rel="stylesheet" href="<?= url('/css/Style.css') ?>">
+        <link rel="stylesheet" href="<?= version('/css/Style.css') ?>">
         <?php foreach ($hojas as $hoja): ?>
-            <link rel="stylesheet" href="<?= url($hoja) ?>">
+            <link rel="stylesheet" href="<?= version($hoja) ?>">
         <?php endforeach; ?>
     </head>
     <body>
@@ -59,7 +71,7 @@ function mostrarPie(array $scripts = []): void
     ?>
     </main>
     <?php foreach ($scripts as $script): ?>
-        <script src="<?= url($script) ?>"></script>
+        <script src="<?= version($script) ?>"></script>
     <?php endforeach; ?>
     </body>
     </html>
