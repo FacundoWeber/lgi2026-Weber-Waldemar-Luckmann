@@ -403,6 +403,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     async function guardarCambios(evento) {
+        if (fechaFin.value < fechaInicio.value) {
+            alert("La fecha de devolución no puede ser anterior a la fecha de inicio.");
+            return;
+        }
 
         evento.preventDefault();
 
