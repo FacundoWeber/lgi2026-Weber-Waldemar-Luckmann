@@ -39,11 +39,20 @@ function mostrarClientes(clientes) {
             <td>${cliente.nombre}</td>
             <td>${cliente.dni}</td>
             <td>${cliente.telefono}</td>
+            <td>${cliente.email}</td>
+            <td>${cliente.activo}</td>
+            <td>${cliente.deuda}</td>
             <td>
                 <button type="button"
                     class="btnSeleccionar"
                     data-id="${cliente.id}">
                     Seleccionar
+                </button>
+            </td>
+            <td>
+                <button type="button"
+                    class="btnEstado"
+                    data-id="${cliente.id}">${Number(cliente.activo) === 1 ? 'Deshabilitar' : 'Habilitar'}
                 </button>
             </td>
         `;
@@ -55,7 +64,7 @@ function mostrarClientes(clientes) {
 }
 
 // AGREGAR CLIENTES
-async function agregarCliente(nombre, dni, telefono) {
+async function agregarCliente(nombre, dni, telefono, email, activo, deuda) {
     try {
         const respuesta = await fetch(API, {
             method: 'POST',
@@ -66,7 +75,10 @@ async function agregarCliente(nombre, dni, telefono) {
                 accion: 'guardar',
                 nombre,
                 dni,
-                telefono
+                telefono,
+                email,
+                activo,
+                deuda
             })
         });
 
@@ -91,14 +103,17 @@ formulario.addEventListener('submit', async function(e) {
     const nombre = document.querySelector('#nombre').value;
     const dni = document.querySelector('#dni').value;
     const telefono = document.querySelector('#telefono').value;
+    const email = document.querySelector('#email').value;
+    const activo = document.querySelector('#activo').value;
+    const deuda = document.querySelector('#deuda').value;
 
-    await agregarCliente(nombre, dni, telefono);
+    await agregarCliente(nombre, dni, telefono, email, activo, deuda);
 
     formulario.reset();
 });
 
 // ACTUALIZAR CLIENTES
-async function actualizarCliente(id, nombre, dni, telefono) {
+async function actualizarCliente(id, nombre, dni, telefono, email, activo, deuda) {
     try {
         const respuesta = await fetch(API, {
             method: 'POST',
@@ -110,7 +125,10 @@ async function actualizarCliente(id, nombre, dni, telefono) {
                 id,
                 nombre,
                 dni,
-                telefono
+                telefono,
+                email,
+                activo,
+                deuda
             })
         });
 
@@ -134,6 +152,9 @@ btnActualizar.addEventListener('click', async function() {
     const nombre = document.querySelector('#nombre').value;
     const dni = document.querySelector('#dni').value;
     const telefono = document.querySelector('#telefono').value;
+    const email = document.querySelector('#email').value;
+    const activo = document.querySelector('#activo').value;
+    const deuda = document.querySelector('#deuda').value;
 
     if (!id) {
         alert('Primero seleccioná un cliente.');
@@ -202,6 +223,42 @@ tabla.addEventListener('click', function(e) {
         document.querySelector('#nombre').value = celdas[1].textContent;
         document.querySelector('#dni').value = celdas[2].textContent;
         document.querySelector('#telefono').value = celdas[3].textContent;
+        document.querySelector('#email').value = celdas[4].textContent;
+        document.querySelector('#activo').value = celdas[5].textContent;
+        document.querySelector('#deuda').value = celdas[6].textContent;
+    }
+});
+////ESTADO CLIENTES
+tabla.addEventListener('click', async (e) => {
+
+    const boton = e.target.closest('.btnEstado');
+
+    if (!boton) return;
+
+    const id = boton.dataset.id;
+
+    try {
+        const respuesta = await fetch(API, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accion: 'estado',
+                id
+            })
+        });
+
+        const resultado = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(resultado.error || 'No se pudo cambiar el estado');
+        }
+
+        await cargarClientes();
+
+    } catch (error) {
+        console.error('Error al cambiar estado:', error);
     }
 });
 

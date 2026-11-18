@@ -42,6 +42,9 @@ mostrarEncabezado('Clientes');
                 <th>Nombre</th>
                 <th>DNI</th>
                 <th>Teléfono</th>
+                <th>Email</th>
+                <th>Activo</th>
+                <th>Deuda</th>
                 <th>Seleccionar</th>
             </tr>
         </thead>
@@ -73,6 +76,15 @@ mostrarEncabezado('Clientes');
 
             <label>Teléfono:</label>
             <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required><br><br>
+
+            <label>Email:</label>
+            <input type="text" id="email" name="email" placeholder="Email" required><br><br>
+
+            <label>Activo:</label>
+            <input type="number" id="activo" name="activo" min="0" max="1" placeholder="Activo"><br><br>
+
+            <label>Deuda:</label>
+            <input type="number" id="deuda" name="deuda" step="0.01" placeholder="Deuda" required><br><br>
 
             <button type="submit" id="btnAgregar" class="btnAgregar">
                 Agregar Cliente
