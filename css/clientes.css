@@ -1,0 +1,16 @@
+.tabla-clientes {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tabla-clientes td,
+.tabla-clientes th {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabla-clientes th {
+    background-color: #f2f2f2;
+}

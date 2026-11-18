@@ -12,6 +12,7 @@ mostrarEncabezado('Clientes');
 <section class="panel panel-ancho">
 
     <h1>Listado de clientes</h1>
+    <link rel="stylesheet" href="../css/clientes.css">
 
     <!-- BÚSQUEDA -->
     <div class="busqueda">
@@ -34,7 +35,7 @@ mostrarEncabezado('Clientes');
     <!-- TABLA -->
     <h2>Listado de Clientes</h2>
 
-    <table class="tabla-clientes" border="4">
+    <table class="tabla-clientes">
 
         <thead>
             <tr>
@@ -97,10 +98,6 @@ mostrarEncabezado('Clientes');
         </form>
 
     </section>
-
-    <p>
-        <a href="<?= url('/vendedor/index.php') ?>">Volver al panel</a>
-    </p>
 
 </section>
 
