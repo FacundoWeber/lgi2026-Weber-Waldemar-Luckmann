@@ -29,23 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error("Error al cargar los clientes.");
         }
 
-        filtroCliente.innerHTML =
-            '<option value="">Todos los clientes</option>';
-
         selectCliente.innerHTML =
             '<option value="">Seleccionar cliente</option>';
 
         clientes.forEach(cliente => {
 
-            const opcionFiltro = document.createElement("option");
+            const opcion = document.createElement("option");
 
-            opcionFiltro.value = cliente.id;
-            opcionFiltro.textContent = cliente.nombre;
+            opcion.value = cliente.id;
+            opcion.textContent = cliente.nombre;
 
-            filtroCliente.appendChild(opcionFiltro);
-
-            const opcionEdicion = opcionFiltro.cloneNode(true);
-            selectCliente.appendChild(opcionEdicion);
+            selectCliente.appendChild(opcion);
         });
     }
 
