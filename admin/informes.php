@@ -62,6 +62,9 @@ mostrarEncabezado('Informes');
     </table>
 
     <h2>Alquileres por estado</h2>
+    <div class="grafico">
+        <canvas id="grafico-estados"></canvas>
+    </div>
     <table class="tabla">
         <thead>
             <tr>
@@ -90,4 +93,4 @@ mostrarEncabezado('Informes');
     </table>
 
 </section>
-<?php mostrarPie(['/js/informes.js']); ?>
+<?php mostrarPie(['/js/chart.umd.min.js', '/js/informes.js']); ?>
