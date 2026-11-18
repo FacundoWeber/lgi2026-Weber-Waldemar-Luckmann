@@ -64,7 +64,7 @@ switch ($accion) {
         $dni = $datos['dni'] ?? '';
         $telefono = $datos['telefono'] ?? '';
         $email = $datos['email'] ?? '';
-        $activo = $datos['activo'] ?? 0;
+        $activo = $datos['activo'] ?? 1;
         $deuda = $datos['deuda'] ?? 0;
 
         $sql = "INSERT INTO clientes (nombre, dni, telefono, email, activo, deuda)
@@ -92,7 +92,7 @@ switch ($accion) {
         $dni = $datos['dni'] ?? '';
         $telefono = $datos['telefono'] ?? '';
         $email = $datos['email'] ?? '';
-        $activo = $datos['activo'] ?? 0;
+        $activo = $datos['activo'] ?? 1;
         $deuda = $datos['deuda'] ?? 0;
 
         $sql = "UPDATE clientes

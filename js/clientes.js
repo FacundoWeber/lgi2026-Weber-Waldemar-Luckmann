@@ -161,7 +161,7 @@ btnActualizar.addEventListener('click', async function() {
         return;
     }
 
-    await actualizarCliente(id, nombre, dni, telefono);
+    await actualizarCliente(id, nombre, dni, telefono, email, activo, deuda);
 
     formulario.reset();
 });
