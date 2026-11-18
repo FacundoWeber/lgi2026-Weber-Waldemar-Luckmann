@@ -216,3 +216,21 @@ a.tarjeta:hover {
         padding: 16px;
     }
 }
+
+/* --- Tabla de alquileres --- */
+
+#tabla-alquileres {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabla-alquileres th,
+#tabla-alquileres td {
+    padding: 12px;
+    border-bottom: 1px solid #dbe3ec;
+    text-align: left;
+}
+
+#tabla-alquileres th {
+    background: #f8fafc;
+}

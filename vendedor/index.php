@@ -13,8 +13,10 @@ mostrarEncabezado('Panel de vendedor');
 
     <div class="tarjetas">
         <div class="tarjeta tarjeta-pendiente">
+            <a href="alquileres.php" class="tarjeta">
             <h2>Alquileres</h2>
-            <p>Registrar alquiler, cambiar de estado y filtrar. <span class="etiqueta">Pendiente</span></p>
+            <p>Registrar alquileres y gestionar su estado.</p>
+            </a>
         </div>
 
         <div class="tarjeta tarjeta-pendiente">
