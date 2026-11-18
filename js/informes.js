@@ -12,6 +12,16 @@ const tablas = {
     meses: document.querySelector('#informe-meses')
 };
 
+// Colores de cada estado en el gráfico.
+const coloresEstado = {
+    activo: '#2457a7',
+    devuelto: '#12703c',
+    cancelado: '#b42318',
+    pendiente: '#c77700'
+};
+
+let graficoEstados = null;
+
 // Evita que un nombre rompa el HTML.
 function escapar(texto) {
     return String(texto ?? '').replace(/[&<>"]/g, function (caracter) {
@@ -105,6 +115,59 @@ function mostrarMeses(lista) {
     }).join('');
 }
 
+function mostrarGraficoEstados(lista) {
+    const lienzo = document.querySelector('#grafico-estados');
+
+    if (!lienzo || typeof Chart === 'undefined') {
+        return;
+    }
+
+    const etiquetas = lista.map(function (fila) {
+        return fila.estado;
+    });
+    const totales = lista.map(function (fila) {
+        return Number(fila.total);
+    });
+    const colores = etiquetas.map(function (estado) {
+        return coloresEstado[estado] || '#6c757d';
+    });
+
+    if (graficoEstados) {
+        graficoEstados.data.labels = etiquetas;
+        graficoEstados.data.datasets[0].data = totales;
+        graficoEstados.data.datasets[0].backgroundColor = colores;
+        graficoEstados.update();
+        return;
+    }
+
+    graficoEstados = new Chart(lienzo, {
+        type: 'doughnut',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'Facturado',
+                data: totales,
+                backgroundColor: colores
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (contexto) {
+                            return contexto.label + ': ' + dinero(contexto.parsed);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 async function generarInformes() {
     const desde = document.querySelector('#desde').value;
     const hasta = document.querySelector('#hasta').value;
@@ -130,6 +193,7 @@ async function generarInformes() {
         mostrarHerramientas(datos.herramientas);
         mostrarClientes(datos.clientes);
         mostrarEstados(datos.estados);
+        mostrarGraficoEstados(datos.estados);
         mostrarMeses(datos.meses);
 
         mensaje.textContent = 'Informe del ' + datos.desde + ' al ' + datos.hasta + '.';

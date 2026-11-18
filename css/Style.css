@@ -263,6 +263,11 @@ a.tarjeta:hover {
     align-items: end;
 }
 
+.grafico {
+    max-width: 420px;
+    margin: 16px auto;
+}
+
 .tarjeta-pendiente {
     background: #f8fafc;
     border-style: dashed;
