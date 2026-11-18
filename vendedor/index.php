@@ -12,18 +12,15 @@ mostrarEncabezado('Panel de vendedor');
     <p>Desde este panel se registran los alquileres y se gestionan los clientes.</p>
 
     <div class="tarjetas">
-        <div class="tarjeta tarjeta-pendiente">
-            <a href="alquileres.php" class="tarjeta">
+        <a class="tarjeta" href="<?= url('/vendedor/alquileres.php') ?>">
             <h2>Alquileres</h2>
             <p>Registrar alquileres y gestionar su estado.</p>
-            </a>
-        </div>
+        </a>
 
-        <div class="tarjeta tarjeta-pendiente">
+        <a class="tarjeta" href="<?= url('/vendedor/clientes.php') ?>">
             <h2>Clientes</h2>
-            <p>Alta, edición y activación de clientes. <span class="etiqueta">Pendiente</span></p>
-            <a href="<?= url('/vendedor/clientes.php') ?>" class="btn btn-primary">Gestionar Clientes</a>
-        </div>
+            <p>Alta, edición y activación de clientes.</p>
+        </a>
     </div>
 </section>
 <?php mostrarPie(); ?>
