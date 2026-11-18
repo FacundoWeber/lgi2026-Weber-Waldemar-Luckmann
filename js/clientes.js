@@ -1,6 +1,6 @@
 
 // RUTA DE LA API
-const API = '/lgi2026-Weber-Waldemar-Luckmann/api/clientes.php';
+const API = '../api/clientes.php';
 
 const formulario = document.querySelector('#agregar_cliente');
 const formularioBusqueda = document.querySelector('#busqueda');

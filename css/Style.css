@@ -169,6 +169,27 @@ button:hover,
     margin-top: 20px;
 }
 
+/* Los indicadores del panel son 5: entran todos en una fila. */
+.tarjetas-datos {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.tarjetas-datos .numero {
+    font-size: 1.7rem;
+}
+
+@media (max-width: 900px) {
+    .tarjetas-datos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .tarjetas-datos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 .tarjeta {
     display: block;
     padding: 18px;
@@ -192,6 +213,54 @@ a.tarjeta:hover {
 .tarjeta p {
     margin: 0;
     color: #4a5a6a;
+}
+
+/* Números del panel */
+.numero {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #2457a7;
+}
+
+/* --- Tablas --- */
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: #fff;
+}
+
+.tabla th,
+.tabla td {
+    padding: 10px;
+    border-bottom: 1px solid #dbe3ec;
+    text-align: left;
+}
+
+.tabla th {
+    background: #f8fafc;
+}
+
+.boton-chico {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+}
+
+.acciones-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.campos-informe {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    align-items: end;
 }
 
 .tarjeta-pendiente {

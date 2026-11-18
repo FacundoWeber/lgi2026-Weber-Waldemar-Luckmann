@@ -25,10 +25,22 @@ function mostrarEncabezado(string $titulo, array $hojas = []): void
         <a class="marca" href="<?= url('/index.php') ?>">Alquiler de herramientas</a>
         <?php if ($usuario !== null): ?>
             <nav class="menu">
-                <a href="<?= url($esAdmin ? '/admin/index.php' : '/vendedor/index.php') ?>">Panel</a>
-                <?php if ($esAdmin): ?>
-                    <a href="<?= url('/admin/herramientas.php') ?>">Herramientas</a>
+                <?php if ($usuario['rol'] === 'cliente'): ?>
+                    <a href="<?= url('/cliente/index.php') ?>">Mis alquileres</a>
+                <?php else: ?>
+                    <a href="<?= url($esAdmin ? '/admin/index.php' : '/vendedor/index.php') ?>">Panel</a>
+
+                    <?php if ($esAdmin): ?>
+                        <a href="<?= url('/admin/herramientas.php') ?>">Herramientas</a>
+                        <a href="<?= url('/admin/gestionar_alquileres.php') ?>">Alquileres</a>
+                        <a href="<?= url('/admin/informes.php') ?>">Informes</a>
+                    <?php else: ?>
+                        <a href="<?= url('/vendedor/alquileres.php') ?>">Alquileres</a>
+                    <?php endif; ?>
+
+                    <a href="<?= url('/vendedor/clientes.php') ?>">Clientes</a>
                 <?php endif; ?>
+
                 <span class="usuario">
                     <?= htmlspecialchars($usuario['nombre']) ?>
                     <small>(<?= htmlspecialchars($usuario['rol']) ?>)</small>

@@ -80,6 +80,10 @@
     padding: 12px 20px;
 }
 
+.acciones-alquiler {
+    text-align: center;
+}
+
 /* Adaptación a celulares */
 @media (max-width: 700px) {
     .campos-alquileres {

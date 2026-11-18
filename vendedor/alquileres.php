@@ -1,104 +1,84 @@
+<?php
+// Registro de alquileres. Los clientes y las herramientas los carga
+// js/alquileres.js desde la API.
 
-<!DOCTYPE html>
-<html lang="es">
+require_once __DIR__ . '/../includes/plantilla.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alquiler de herramientas</title>
+exigirRol('vendedor');
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/alquileres.css">
-</head>
+mostrarEncabezado('Alquileres', ['/css/alquileres.css']);
+?>
+<section class="panel panel-ancho">
 
-<body>
+    <h1>Registrar alquiler</h1>
 
-    <main class="contenido">
+    <!-- DATOS DEL ALQUILER -->
+    <section class="seccion-alquileres">
 
-        <div class="panel panel-ancho">
+        <h2>Datos del alquiler</h2>
 
-            <h1>Alquiler de herramientas</h1>
+        <div class="campos-alquileres">
 
-            <!-- DATOS DEL ALQUILER -->
-            <section class="seccion-alquileres">
+            <div>
+                <label for="cliente_id">Cliente</label>
+                <select id="cliente_id" required>
+                    <option value="">Seleccionar cliente</option>
+                </select>
+            </div>
 
-                <h2>Datos del alquiler</h2>
+            <div>
+                <label for="fecha_inicio">Fecha de inicio</label>
+                <input type="date" id="fecha_inicio" required>
+            </div>
 
-                <div class="campos-alquileres">
-
-                    <div>
-                        <label for="cliente_id">Cliente:</label>
-                        <select id="cliente_id" required>
-                            <option value="">Seleccionar cliente</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="fecha_inicio">Fecha de inicio:</label>
-                        <input type="date" id="fecha_inicio" required>
-                    </div>
-
-                    <div>
-                        <label for="fecha_fin">Fecha de devolución:</label>
-                        <input type="date" id="fecha_fin" required>
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- HERRAMIENTAS DISPONIBLES -->
-            <section class="seccion-alquileres">
-
-                <h2>Herramientas disponibles</h2>
-
-                <div class="tabla-alquileres-contenedor">
-
-                    <table class="tabla-alquileres">
-
-                        <thead>
-                            <tr>
-                                <th>Herramienta</th>
-                                <th>Precio</th>
-                                <th>Stock disponible</th>
-                                <th>Cantidad seleccionada</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="tabla-herramientas">
-                            <tr>
-                                <td colspan="5">
-                                    Cargando herramientas...
-                                </td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
-            <!-- CONFIRMAR ALQUILER -->
-            <div style="text-align: center;">
-
-                <button
-                    type="button"
-                    class="btn-alquilar"
-                    onclick="finalizarAlquiler()">
-
-                    Confirmar alquiler
-
-                </button>
-
+            <div>
+                <label for="fecha_fin">Fecha de devolución</label>
+                <input type="date" id="fecha_fin" required>
             </div>
 
         </div>
 
-    </main>
+    </section>
 
-    <script src="../js/alquileres.js"></script>
+    <!-- HERRAMIENTAS DISPONIBLES -->
+    <section class="seccion-alquileres">
 
-</body>
-</html>
+        <h2>Herramientas disponibles</h2>
+
+        <div class="tabla-alquileres-contenedor">
+
+            <table class="tabla-alquileres">
+
+                <thead>
+                    <tr>
+                        <th>Herramienta</th>
+                        <th>Precio</th>
+                        <th>Stock disponible</th>
+                        <th>Cantidad seleccionada</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabla-herramientas">
+                    <tr>
+                        <td colspan="5">Cargando herramientas...</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- CONFIRMAR ALQUILER -->
+    <div class="acciones-alquiler">
+
+        <button type="button" class="btn-alquilar" onclick="finalizarAlquiler()">
+            Confirmar alquiler
+        </button>
+
+    </div>
+
+</section>
+<?php mostrarPie(['/js/alquileres.js']); ?>

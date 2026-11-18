@@ -618,15 +618,26 @@ try {
 
     // Verificar cliente.
     $consultaCliente = $pdo->prepare("
-        SELECT id
+        SELECT id, activo, deuda
         FROM clientes
         WHERE id = ?
     ");
 
     $consultaCliente->execute([$clienteId]);
 
-    if (!$consultaCliente->fetch()) {
+    $clienteActual = $consultaCliente->fetch(PDO::FETCH_ASSOC);
+
+    if (!$clienteActual) {
         throw new Exception("El cliente seleccionado no existe.");
+    }
+
+    // Regla: solo alquilan los clientes activos y sin deuda.
+    if ((int) $clienteActual['activo'] !== 1) {
+        throw new Exception("El cliente está inactivo y no puede alquilar.");
+    }
+
+    if ((float) $clienteActual['deuda'] > 0) {
+        throw new Exception("El cliente tiene una deuda pendiente.");
     }
 
     // Consultar y validar herramientas.
