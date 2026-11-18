@@ -1,6 +1,11 @@
 
 <?php
 
+require_once __DIR__ . '/_comun.php';
+
+// La API solo responde a usuarios con sesión iniciada.
+exigirRolApi('vendedor');
+
 header("Content-Type: application/json; charset=UTF-8");
 
 $conexion = new mysqli("localhost", "root", "", "alquiler_herramientas");
