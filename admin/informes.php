@@ -11,6 +11,7 @@ mostrarEncabezado('Informes');
 
     <h1>Informes</h1>
     <p>Actividad del sistema entre dos fechas.</p>
+    <p class="solo-impresion" id="rango-impreso"></p>
 
     <form id="filtro-informes">
         <div class="campos-informe">
@@ -29,6 +30,8 @@ mostrarEncabezado('Informes');
             </div>
         </div>
     </form>
+
+    <p><button type="button" class="boton" id="btnImprimir">Imprimir / guardar PDF</button></p>
 
     <p id="mensaje" class="mensaje" role="status"></p>
 

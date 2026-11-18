@@ -310,3 +310,48 @@ a.tarjeta:hover {
 #tabla-alquileres th {
     background: #f8fafc;
 }
+
+/* --- Impresión --- */
+
+/* Lo que solo se ve en el papel. */
+.solo-impresion {
+    display: none;
+}
+
+@media print {
+    .barra-superior,
+    #filtro-informes,
+    #mensaje,
+    .boton {
+        display: none;
+    }
+
+    .solo-impresion {
+        display: block;
+        margin: 0 0 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .contenido {
+        padding: 0;
+        background: #fff;
+    }
+
+    .panel,
+    .panel-ancho {
+        width: 100%;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+    }
+
+    h2 {
+        page-break-after: avoid;
+    }
+
+    .tabla,
+    .grafico {
+        page-break-inside: avoid;
+    }
+}
