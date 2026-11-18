@@ -42,6 +42,12 @@ function mesCorto(mes) {
     return partes[1] + '/' + partes[0];
 }
 
+function fechaCorta(fecha) {
+    const partes = String(fecha).split('-');
+
+    return partes[2] + '/' + partes[1] + '/' + partes[0];
+}
+
 function sinDatos(columnas) {
     return '<tr><td colspan="' + columnas + '">Sin datos en el período.</td></tr>';
 }
@@ -199,6 +205,9 @@ async function generarInformes() {
 
         mensaje.textContent = 'Informe del ' + datos.desde + ' al ' + datos.hasta + '.';
         mensaje.className = 'mensaje mensaje-exito';
+
+        document.querySelector('#rango-impreso').textContent =
+            'Del ' + fechaCorta(datos.desde) + ' al ' + fechaCorta(datos.hasta);
     } catch (error) {
         mensaje.textContent = error.message;
         mensaje.className = 'mensaje mensaje-error';
