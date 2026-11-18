@@ -219,4 +219,10 @@ formulario.addEventListener('submit', function (evento) {
     generarInformes();
 });
 
+document.querySelector('#btnImprimir').addEventListener('click', async function () {
+    // Primero calcula el informe con las fechas elegidas y después imprime.
+    await generarInformes();
+    window.print();
+});
+
 generarInformes();

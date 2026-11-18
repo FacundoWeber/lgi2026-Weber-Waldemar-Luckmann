@@ -31,6 +31,8 @@ mostrarEncabezado('Informes');
         </div>
     </form>
 
+    <p><button type="button" class="boton" id="btnImprimir">Imprimir / guardar PDF</button></p>
+
     <p id="mensaje" class="mensaje" role="status"></p>
 
     <h2>Herramientas más alquiladas</h2>
