@@ -63,12 +63,15 @@ switch ($accion) {
         $nombre = $datos['nombre'] ?? '';
         $dni = $datos['dni'] ?? '';
         $telefono = $datos['telefono'] ?? '';
+        $email = $datos['email'] ?? '';
+        $activo = $datos['activo'] ?? 0;
+        $deuda = $datos['deuda'] ?? 0;
 
-        $sql = "INSERT INTO clientes (nombre, dni, telefono)
-                VALUES (?, ?, ?)";
+        $sql = "INSERT INTO clientes (nombre, dni, telefono, email, activo, deuda)
+                VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("sss", $nombre, $dni, $telefono);
+        $stmt->bind_param("ssssii", $nombre, $dni, $telefono, $email, $activo, $deuda);
 
         if ($stmt->execute()) {
             echo json_encode(["mensaje" => "Cliente agregado correctamente"]);
@@ -88,13 +91,16 @@ switch ($accion) {
         $nombre = $datos['nombre'] ?? '';
         $dni = $datos['dni'] ?? '';
         $telefono = $datos['telefono'] ?? '';
+        $email = $datos['email'] ?? '';
+        $activo = $datos['activo'] ?? 0;
+        $deuda = $datos['deuda'] ?? 0;
 
         $sql = "UPDATE clientes
-                SET nombre = ?, dni = ?, telefono = ?
+                SET nombre = ?, dni = ?, telefono = ?, email = ?, activo = ?, deuda = ?
                 WHERE id = ?";
 
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("sssi", $nombre, $dni, $telefono, $id);
+        $stmt->bind_param("ssssiii", $nombre, $dni, $telefono, $email, $activo, $deuda, $id);
 
         if ($stmt->execute()) {
             echo json_encode(["mensaje" => "Cliente actualizado correctamente"]);
@@ -132,11 +138,35 @@ switch ($accion) {
         $stmt->close();
         break;
 
+    ///estado de clientes
+    case 'estado':
+        $id = $datos['id'] ?? 0;
 
+        $sql = "UPDATE clientes
+                SET activo = IF(activo = 1, 0, 1)
+                WHERE id = ?";
+
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            echo json_encode([
+                "mensaje" => "Estado actualizado correctamente"
+            ]);
+        } else {
+            http_response_code(400);
+            echo json_encode([
+                "error" => "No se pudo actualizar el estado"
+            ]);
+        }
+
+        $stmt->close();
+        break;
     default:
         http_response_code(400);
         echo json_encode(["error" => "Acción no válida"]);
         break;
+        
 }
 
 $conexion->close();
