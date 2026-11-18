@@ -15,6 +15,7 @@ mostrarEncabezado('Gestión de alquileres');
 
     <h1>Gestión de alquileres</h1>
     <p>Consulta y administra los alquileres registrados en el sistema.</p>
+    <p><a class="boton" href="<?= url('/vendedor/alquileres.php') ?>">Registrar alquiler</a></p>
     <p><a href="<?= url('/admin/index.php') ?>">Volver al panel</a></p>
 
     <section class="seccion-herramientas">
